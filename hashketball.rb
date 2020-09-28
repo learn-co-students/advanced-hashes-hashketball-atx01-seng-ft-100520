@@ -126,4 +126,64 @@ def game_hash
   }
 end
 
-# Write code here
+def all_players_list
+  game_hash[:away][:players].concat(game_hash[:home][:players])
+end
+
+
+def num_points_scored(player_name)
+  player = all_players_list.find do |p| p[:player_name] == player_name end
+  player[:points]
+end
+
+
+def shoe_size(player_name)
+  player = all_players_list.find do |p| p[:player_name] == player_name end
+  player[:shoe]
+end
+
+def team_colors(team_name)
+  # takes in an argument of the team name and returns an Array of that team's colors
+  game_hash.each do |k,v| 
+    if v[:team_name] == team_name 
+      return v[:colors]
+    end  
+  end
+  return "No team colors found"
+end
+
+def team_names
+  #operates in game hash to return an array of team names
+  team_list = []
+  game_hash.each do |k,v| team_list.push(v[:team_name]) end
+  team_list
+end
+
+def player_numbers(team_name)
+  #takes team name and returns an Array of the jersey numbers for that team.
+  jersey_nums = []
+  team = {}
+  game_hash.each do |k,v| team = v if v[:team_name] == team_name end
+  team[:players].each do |player| jersey_nums.push(player[:number]) end
+  jersey_nums  
+  
+end
+
+def player_stats(player_name)
+  # takes player's name and returns a hash of that player's stats.
+  all_players_list.find do |p| p[:player_name] == player_name end
+end
+
+def big_shoe_rebounds
+  # return the number of rebounds associated with player with largest shoe size
+  player = {}
+  shoe_size = 0
+  rebounds = 0
+  all_players_list.each do |p|
+    if p[:shoe] > shoe_size
+      shoe_size = p[:shoe]
+      player = p
+    end
+  end
+  player[:rebounds]
+end
